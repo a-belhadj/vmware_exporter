@@ -1199,7 +1199,7 @@ class VmwareCollector():
                 for metric_name in self._metricNames.get(metric_type, []):
                     metric = metrics.get(metric_name)
                     labelnames = metric._labelnames
-                    metric._labelnames = labelnames[0:len(self._labelNames[metric_type])]
+                    metric._labelnames = list(labelnames[0:len(self._labelNames[metric_type])])
                     metric._labelnames += customAttributesLabelNames
                     metric._labelnames += labelnames[len(self._labelNames[metric_type]):]
                     metric._labelnames = list(map(lambda x: re.sub('[^a-zA-Z0-9_]', '_', x), metric._labelnames))
