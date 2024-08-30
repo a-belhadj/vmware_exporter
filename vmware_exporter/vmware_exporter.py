@@ -94,9 +94,9 @@ class VmwareCollector():
 
         # label names and ammount will be needed later to insert labels from custom attributes
         self._labelNames = {
-            'vms': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid'],
-            'vm_perf': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid'],
-            'vmguests': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid'],
+            'vms': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
+            'vm_perf': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
+            'vmguests': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid','moid'],
             'snapshots': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
             'datastores': ['ds_name', 'dc_name', 'ds_cluster'],
             'hosts': ['host_name', 'dc_name', 'cluster_name'],
@@ -1114,7 +1114,7 @@ class VmwareCollector():
                 labels[moid] += [row['summary.config.instanceUuid']]
             else:
                 labels[moid] += ["no_instanceUuid"]
-
+            labels[moid] += [moid]
             """
             this code was in vm_inventory before
             but I have the feeling it is best placed here where
