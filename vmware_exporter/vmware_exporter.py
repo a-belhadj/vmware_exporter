@@ -97,7 +97,7 @@ class VmwareCollector():
             'vms': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
             'vm_perf': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
             'vmguests': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid','moid'],
-            'snapshots': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
+            'snapshots': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid','moid'],
             'datastores': ['ds_name', 'dc_name', 'ds_cluster'],
             'hosts': ['host_name', 'dc_name', 'cluster_name'],
             'host_perf': ['host_name', 'dc_name', 'cluster_name'],
