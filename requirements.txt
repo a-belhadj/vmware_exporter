@@ -1,4 +1,4 @@
-prometheus-client==0.0.19
+prometheus-client==0.21.0
 pytz
 pyvmomi>=6.5
 twisted>=14.0.2
