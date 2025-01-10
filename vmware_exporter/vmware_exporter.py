@@ -155,6 +155,10 @@ class VmwareCollector():
                 'vmware_vm_guest_disk_capacity',
                 'Disk capacity metric per partition',
                 labels=self._labelNames['vmguests'] + ['partition', ]),
+            'vmware_vm_guest_disk_used_percent': GaugeMetricFamily(
+                'vmware_vm_guest_disk_used_percent',
+                'Disk capacity used per partition in percent',
+                labels=self._labelNames['vmguests'] + ['partition', ]),
             'vmware_vm_guest_tools_running_status': GaugeMetricFamily(
                 'vmware_vm_guest_tools_running_status',
                 'VM tools running status',
@@ -1603,6 +1607,13 @@ class VmwareCollector():
                     metrics['vmware_vm_guest_disk_capacity'].add_metric(
                         labels + [disk.diskPath], disk.capacity
                     )
+                    try:
+                        percent_used = ((disk.capacity - disk.freeSpace) / disk.capacity) * 100
+                        metrics["vmware_vm_guest_disk_used_percent"].add_metric(
+                            labels + [disk.diskPath], percent_used
+                        )
+                    except ZeroDivisionError:
+                        pass
 
             if 'guest.toolsStatus' in row:
                 metrics['vmware_vm_guest_tools_running_status'].add_metric(
