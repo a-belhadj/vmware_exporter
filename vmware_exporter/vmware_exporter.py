@@ -94,10 +94,10 @@ class VmwareCollector():
 
         # label names and ammount will be needed later to insert labels from custom attributes
         self._labelNames = {
-            'vms': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
-            'vm_perf': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
-            'vmguests': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
-            'snapshots': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name'],
+            'vms': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
+            'vm_perf': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid', 'moid'],
+            'vmguests': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid','moid'],
+            'snapshots': ['vm_name', 'ds_name', 'host_name', 'dc_name', 'cluster_name', 'uuid', 'instance_uuid','moid'],
             'datastores': ['ds_name', 'dc_name', 'ds_cluster'],
             'hosts': ['host_name', 'dc_name', 'cluster_name'],
             'host_perf': ['host_name', 'dc_name', 'cluster_name'],
@@ -738,6 +738,8 @@ class VmwareCollector():
             'runtime.host',
             'parent',
             'summary.config.vmPathName',
+            'summary.config.uuid',
+            'summary.config.instanceUuid',
         ]
 
         if self.collect_only['vms'] is True:
@@ -1104,6 +1106,15 @@ class VmwareCollector():
             if host_moid in host_labels:
                 labels[moid] = labels[moid] + host_labels[host_moid]
 
+            if 'summary.config.uuid' in row:
+                labels[moid] += [row['summary.config.uuid']]
+            else:
+                labels[moid] += ["no_uuid"]
+            if 'summary.config.instanceUuid' in row:
+                labels[moid] += [row['summary.config.instanceUuid']]
+            else:
+                labels[moid] += ["no_instanceUuid"]
+            labels[moid] += [moid]
             """
             this code was in vm_inventory before
             but I have the feeling it is best placed here where
@@ -1188,7 +1199,7 @@ class VmwareCollector():
                 for metric_name in self._metricNames.get(metric_type, []):
                     metric = metrics.get(metric_name)
                     labelnames = metric._labelnames
-                    metric._labelnames = labelnames[0:len(self._labelNames[metric_type])]
+                    metric._labelnames = list(labelnames[0:len(self._labelNames[metric_type])])
                     metric._labelnames += customAttributesLabelNames
                     metric._labelnames += labelnames[len(self._labelNames[metric_type]):]
                     metric._labelnames = list(map(lambda x: re.sub('[^a-zA-Z0-9_]', '_', x), metric._labelnames))
