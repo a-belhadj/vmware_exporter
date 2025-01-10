@@ -1961,6 +1961,8 @@ class VMWareMetricsResource(Resource):
             logging.error(traceback.format_exc())
             request.setResponseCode(500)
             request.write(b'# Collection failed')
+            if request._disconnected:
+                return
             request.finish()
 
         # We used to call request.processingFailed to send a traceback to browser
@@ -2004,10 +2006,11 @@ class VMWareMetricsResource(Resource):
         registry = CollectorRegistry()
         registry.register(ListCollector(metrics))
         output = generate_latest(registry)
-
         request.setHeader("Content-Type", "text/plain; charset=UTF-8")
         request.setResponseCode(200)
         request.write(output)
+        if request._disconnected:
+                return
         request.finish()
 
 
