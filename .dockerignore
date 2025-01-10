@@ -1,1 +1,9 @@
 config.yml
+alerts
+build
+dashboards
+dist
+kubernetes
+openshift
+systemd
+tests
