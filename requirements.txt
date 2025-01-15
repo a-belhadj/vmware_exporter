@@ -8,7 +8,7 @@ cryptography==43.0.1
 hyperlink==21.0.0
 idna==3.10
 incremental==24.7.2
-prometheus_client==0.0.19
+prometheus_client==0.21.1
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pycparser==2.22

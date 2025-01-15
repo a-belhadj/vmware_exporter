@@ -276,3 +276,9 @@ Daniel Pryor [pryorda](https://github.com/pryorda)
 See LICENSE file
 
 [![Known Vulnerabilities](https://snyk.io/test/github/rmontenegroo/vmware_exporter/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/rmontenegroo/vmware_exporter?targetFile=requirements.txt)
+
+## Dev env
+```bash
+pyenv virtualenv-delete vmware_exporter
+pyenv virtualenv 3.13.1 vmware_exporter
+```
